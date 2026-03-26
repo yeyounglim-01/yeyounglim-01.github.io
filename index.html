@@ -241,12 +241,12 @@
     .proj-item {
       flex: 0 0 210px;
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .6s ease, transform .6s ease;
+      transform: translateX(48px) scale(.97);
+      transition: opacity .42s ease, transform .42s ease;
     }
     .proj-item.proj-visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0) scale(1);
     }
 
     .proj-item-num {
@@ -610,15 +610,23 @@
         <div>
           <div class="about-name-script">Yeyoung Lim</div>
           <p class="about-text">
-            <strong>임예영</strong>. 한양여자대학교 니트패션디자인과를 졸업하고
-            <strong>알브이디(RVD)</strong>에서 디자이너로 컬렉션 기획부터
-            생산 커뮤니케이션까지 크리에이티브 실무를 경험했습니다.
+            <strong>임예영.</strong> 크리에이티브 감각과 AI 기술을 잇다.
           </p>
           <p class="about-text">
-            이후 <strong>Microsoft AI School 8기</strong>(2025.09–2026.02)를 통해
+            패션 브랜드 <strong>RVD</strong>에서 디자이너로 활동하며 시즌 컬렉션 기획부터
+            소재 선정, 생산 커뮤니케이션까지 크리에이티브 실무 전반을 경험했습니다.
+            동시에 카카오톡 테마를 직접 기획하고 판매하며 감각을 상업적으로 구현하는 일도 이어왔습니다.
+          </p>
+          <p class="about-text">
+            크리에이티브 실무 안에서 반복적으로 마주치는 것들 — 패턴을 읽는 눈, 사용자를 상상하는 힘,
+            데이터에서 맥락을 찾는 감각 — 이 기술과 닿아 있다는 걸 알게 됐습니다.
+            <strong>Microsoft AI School 8기</strong>(2025.09–2026.02)를 통해
             Python, ML·DL, Azure AI Services, Computer Vision, NLP 등
-            AI 서비스 엔드투엔드 개발 역량을 체계적으로 습득했습니다.
-            시각적 완성도와 사용자 관점을 동시에 고려하는 것이 강점입니다.
+            AI 서비스 개발을 체계적으로 익혔고, 상표 유사도 분석·HR SaaS·음식 탐지 서비스 등
+            다양한 프로젝트를 직접 만들었습니다.
+          </p>
+          <p class="about-text">
+            <strong>디자인의 언어로 기술을 다루는 사람입니다.</strong>
           </p>
         </div>
       </div>
@@ -887,18 +895,19 @@
       gallery.scrollBy({ left: 260, behavior: 'smooth' });
     });
 
-    // ── Card entrance animation ──
-    const items = document.querySelectorAll('.proj-item');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+    // ── Card spread animation: fires once when section enters view ──
+    const projItems = document.querySelectorAll('.proj-item');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const delay = Array.from(items).indexOf(entry.target) * 80;
-          setTimeout(() => entry.target.classList.add('proj-visible'), delay);
-          observer.unobserve(entry.target);
+          projItems.forEach((item, i) => {
+            setTimeout(() => item.classList.add('proj-visible'), i * 70);
+          });
+          sectionObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
-    items.forEach(item => observer.observe(item));
+    }, { threshold: 0.08 });
+    sectionObserver.observe(document.getElementById('projects'));
   </script>
 </body>
 </html>
