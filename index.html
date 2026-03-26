@@ -201,10 +201,10 @@
     .about-text {
       font-family: 'Inter', 'Noto Sans KR', sans-serif;
       font-size: .9rem; line-height: 1.85;
-      color: var(--mid); margin-bottom: 18px;
+      color: var(--dim); margin-bottom: 18px;
     }
     .about-text:last-child { margin-bottom: 0; }
-    .about-text strong { color: var(--dark); font-weight: 600; }
+    .about-text strong { font-weight: 700; }
 
     /* ── PROJECTS ── */
     #projects { background: var(--off); border-bottom: 1px solid var(--border); }
@@ -620,7 +620,7 @@
           <p class="about-text">
             크리에이티브 실무 안에서 반복적으로 마주치는 것들 — 패턴을 읽는 눈, 사용자를 상상하는 힘,
             데이터에서 맥락을 찾는 감각 — 이 기술과 닿아 있다는 걸 알게 됐습니다.
-            <strong>Microsoft AI School 8기</strong>(2025.09–2026.02)를 통해
+            <strong>Microsoft AI School 8기</strong>를 통해
             Python, ML·DL, Azure AI Services, Computer Vision, NLP 등
             AI 서비스 개발을 체계적으로 익혔고, 상표 유사도 분석·HR SaaS·음식 탐지 서비스 등
             다양한 프로젝트를 직접 만들었습니다.
@@ -895,19 +895,19 @@
       gallery.scrollBy({ left: 260, behavior: 'smooth' });
     });
 
-    // ── Card spread animation: fires once when section enters view ──
+    // ── Card spread animation: fires when gallery itself enters view ──
     const projItems = document.querySelectorAll('.proj-item');
-    const sectionObserver = new IntersectionObserver((entries) => {
+    const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           projItems.forEach((item, i) => {
             setTimeout(() => item.classList.add('proj-visible'), i * 70);
           });
-          sectionObserver.unobserve(entry.target);
+          galleryObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08 });
-    sectionObserver.observe(document.getElementById('projects'));
+    }, { threshold: 0.1 });
+    galleryObserver.observe(document.getElementById('proj-gallery'));
   </script>
 </body>
 </html>
