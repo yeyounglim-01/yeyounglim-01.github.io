@@ -191,8 +191,10 @@
       margin: 12px 0;
     }
     .about-name-script {
-      font-family: 'Pinyon Script', cursive;
-      font-size: 3.2rem; color: var(--dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--dark);
       margin-bottom: 28px; line-height: 1;
     }
     .about-text {
@@ -206,14 +208,45 @@
     /* ── PROJECTS ── */
     #projects { background: var(--off); border-bottom: 1px solid var(--border); }
 
-    .proj-gallery {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 32px;
-      align-items: start;
+    /* slider nav */
+    .proj-slider-nav {
+      display: flex; gap: 8px;
+      justify-content: flex-end;
+      margin-bottom: 28px;
     }
+    .proj-nav-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--mid);
+      width: 34px; height: 34px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .proj-nav-btn:hover { border-color: var(--dark); color: var(--dark); }
 
-    .proj-item {}
+    .proj-gallery {
+      display: flex;
+      gap: 28px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 12px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .proj-gallery::-webkit-scrollbar { display: none; }
+
+    .proj-item {
+      flex: 0 0 210px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .proj-item.proj-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     .proj-item-num {
       font-family: 'Space Mono', monospace;
@@ -443,7 +476,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1100px) {
-      .proj-gallery { grid-template-columns: repeat(3, 1fr); }
+      /* proj-gallery is horizontal scroll — no grid override needed */
     }
     @media (max-width: 900px) {
       nav { padding: 0 24px; }
@@ -457,14 +490,14 @@
       .hero-name-label { display: none; }
       section { padding: 64px 24px; }
       .about-grid { grid-template-columns: 1fr; gap: 32px; }
-      .proj-gallery { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .proj-item { flex: 0 0 170px; }
       .skills-grid { grid-template-columns: 1fr; }
       .skill-category { border-right: none; border-bottom: 1px solid var(--border); }
       .skill-category:last-child { border-bottom: none; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
     @media (max-width: 540px) {
-      .proj-gallery { grid-template-columns: 1fr; }
+      .proj-item { flex: 0 0 150px; }
     }
   </style>
 </head>
@@ -579,8 +612,6 @@
             AI 서비스 엔드투엔드 개발 역량을 체계적으로 습득했습니다.
             시각적 완성도와 사용자 관점을 동시에 고려하는 것이 강점입니다.
           </p>
-          <a class="proj-link proj-link-em" href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:73bf33f6-3c03-4b38-98d7-94b15c0156d6" target="_blank"
-             style="display:inline-flex;margin-top:8px;">Design Work (RVD) ↗</a>
         </div>
       </div>
     </div>
@@ -592,129 +623,157 @@
       <div class="section-header">
         <span class="section-num">02</span>
         <h2 class="section-title">Projects</h2>
-        <span class="section-count">6 works</span>
+        <span class="section-count">7 works</span>
       </div>
 
-      <div class="proj-gallery">
-
-        <!-- 01 Docsy -->
-        <div class="proj-item">
-          <span class="proj-item-num">01</span>
-          <div class="proj-img">
-            <img src="images/docsy.png" alt="Docsy">
-            <div class="proj-img-overlay">
-              <p>Gemini 기반 AI 문서 자동화 에이전트.<br>Review-First 워크플로우.<br>Firebase + Cloud Run 배포.<br>Gemini 해커톤 제출작.</p>
-            </div>
-          </div>
-          <div class="proj-info">
-            <div class="proj-name">Docsy</div>
-            <div class="proj-year">2026</div>
-            <div class="proj-tags-inline">React · Gemini · Node.js · Firebase</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="https://docsy.cyou/" target="_blank">Live ↗</a>
-              <a class="proj-link" href="https://github.com/dailykim149656-source/markdown-muse" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
+      <div class="proj-slider-wrap">
+        <div class="proj-slider-nav">
+          <button class="proj-nav-btn" id="proj-prev">←</button>
+          <button class="proj-nav-btn" id="proj-next">→</button>
         </div>
 
-        <!-- 02 Tip -->
-        <div class="proj-item">
-          <span class="proj-item-num">02</span>
-          <div class="proj-img">
-            <img src="images/tip.jpg" alt="Tip">
-            <div class="proj-img-overlay">
-              <p>상표법 3대 기준(외관·칭호·관념)<br>AI 유사도 분석 시스템.<br>CNN·ResNet50 + 의미 임베딩 결합.</p>
-            </div>
-          </div>
-          <div class="proj-info">
-            <div class="proj-name">Tip — 상표 유사도</div>
-            <div class="proj-year">2025 · MS AI School 우수상 (2위)</div>
-            <div class="proj-tags-inline">PyTorch · ResNet50 · Embedding · OpenAI</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/similarity_model_visual-semantic" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
+        <div class="proj-gallery" id="proj-gallery">
 
-        <!-- 03 꿀단지 -->
-        <div class="proj-item">
-          <span class="proj-item-num">03</span>
-          <div class="proj-img">
-            <img src="images/honeypot.png" alt="꿀단지">
-            <div class="proj-img-overlay">
-              <p>퇴사 지식 소실 방지 AI HR SaaS.<br>RAG 인수인계서 자동 생성<br>+ AI 멘토 챗봇.<br>Frontend Lead.</p>
+          <!-- 01 Docsy -->
+          <div class="proj-item">
+            <span class="proj-item-num">01</span>
+            <div class="proj-img">
+              <img src="images/docsy.png" alt="Docsy">
+              <div class="proj-img-overlay">
+                <p>Gemini 기반 AI 문서 자동화 에이전트.<br>Review-First 워크플로우.<br>Firebase + Cloud Run 배포.<br>Gemini 해커톤 제출작.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">Docsy</div>
+              <div class="proj-year">2026</div>
+              <div class="proj-tags-inline">React · Gemini · Node.js · Firebase</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://docsy.cyou/" target="_blank">Live ↗</a>
+                <a class="proj-link" href="https://github.com/dailykim149656-source/markdown-muse" target="_blank">GitHub ↗</a>
+              </div>
             </div>
           </div>
-          <div class="proj-info">
-            <div class="proj-name">꿀단지 (HoneyPot)</div>
-            <div class="proj-year">2025</div>
-            <div class="proj-tags-inline">React · FastAPI · Azure OpenAI · RAG</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/honeypot_proto" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
 
-        <!-- 04 찍먹 -->
-        <div class="proj-item">
-          <span class="proj-item-num">04</span>
-          <div class="proj-img">
-            <img src="images/zzickmeok.png" alt="찍먹">
-            <div class="proj-img-overlay">
-              <p>YOLOv11 기반 음식 탐지.<br>약물-식품 상호작용 분석 서비스.<br>MS AI School 자유 프로젝트.</p>
+          <!-- 02 Tip -->
+          <div class="proj-item">
+            <span class="proj-item-num">02</span>
+            <div class="proj-img">
+              <img src="images/tip.jpg" alt="Tip">
+              <div class="proj-img-overlay">
+                <p>상표법 3대 기준(외관·칭호·관념)<br>AI 유사도 분석 시스템.<br>CNN·ResNet50 + 의미 임베딩 결합.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">Tip — 상표 유사도</div>
+              <div class="proj-year">2025 · MS AI School 우수상 (2위)</div>
+              <div class="proj-tags-inline">PyTorch · ResNet50 · Embedding · OpenAI</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/similarity_model_visual-semantic" target="_blank">GitHub ↗</a>
+              </div>
             </div>
           </div>
-          <div class="proj-info">
-            <div class="proj-name">찍먹 (Zzickmeok)</div>
-            <div class="proj-year">2025</div>
-            <div class="proj-tags-inline">YOLOv11 · Computer Vision · Azure AI</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/zzickmeok_proj" target="_blank">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
 
-        <!-- 06 KakaoTalk Theme -->
-        <div class="proj-item">
-          <span class="proj-item-num">06</span>
-          <div class="proj-img" style="background:#FAE100;">
-            <div class="proj-img-placeholder">
-              <span style="font-family:'Inter',sans-serif;font-size:2.2rem;color:rgba(0,0,0,.18);">kakao</span>
+          <!-- 03 꿀단지 -->
+          <div class="proj-item">
+            <span class="proj-item-num">03</span>
+            <div class="proj-img">
+              <img src="images/honeypot.png" alt="꿀단지">
+              <div class="proj-img-overlay">
+                <p>퇴사 지식 소실 방지 AI HR SaaS.<br>RAG 인수인계서 자동 생성<br>+ AI 멘토 챗봇.<br>Frontend Lead.</p>
+              </div>
             </div>
-            <div class="proj-img-overlay">
-              <p>카카오톡 테마 크리에이터 활동.<br>고양이 · 천사 · 복숭아 등<br>직접 디자인한 테마 5종 판매 중.</p>
+            <div class="proj-info">
+              <div class="proj-name">꿀단지 (HoneyPot)</div>
+              <div class="proj-year">2025</div>
+              <div class="proj-tags-inline">React · FastAPI · Azure OpenAI · RAG</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/honeypot_proto" target="_blank">GitHub ↗</a>
+              </div>
             </div>
           </div>
-          <div class="proj-info">
-            <div class="proj-name">KakaoTalk Theme</div>
-            <div class="proj-year">2024–</div>
-            <div class="proj-tags-inline">Graphic Design · Illustration · Kakao</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="https://posty.pe/sj9jpwd" target="_blank">Store ↗</a>
-            </div>
-          </div>
-        </div>
 
-        <!-- 05 Cosmos -->
-        <div class="proj-item">
-          <span class="proj-item-num">05</span>
-          <div class="proj-img" style="background:#111;">
-            <img src="images/cosmos.jpg" alt="Cosmos">
-            <div class="proj-img-overlay">
-              <p>디스토피아풍 버추얼 패션 브랜드.<br>3D CLO 가상 의류 구현.<br>생성형 AI 워크플로우 활용.</p>
+          <!-- 04 찍먹 -->
+          <div class="proj-item">
+            <span class="proj-item-num">04</span>
+            <div class="proj-img">
+              <img src="images/zzickmeok.png" alt="찍먹">
+              <div class="proj-img-overlay">
+                <p>YOLOv11 기반 음식 탐지.<br>약물-식품 상호작용 분석 서비스.<br>MS AI School 자유 프로젝트.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">찍먹 (Zzickmeok)</div>
+              <div class="proj-year">2025</div>
+              <div class="proj-tags-inline">YOLOv11 · Computer Vision · Azure AI</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://github.com/yeyounglim-01/zzickmeok_proj" target="_blank">GitHub ↗</a>
+              </div>
             </div>
           </div>
-          <div class="proj-info">
-            <div class="proj-name">Cosmos</div>
-            <div class="proj-year">2024</div>
-            <div class="proj-tags-inline">3D CLO · Illustrator · Photoshop · Gen AI</div>
-            <div class="proj-links-row">
-              <a class="proj-link proj-link-em" href="pdfs/cosmos.pdf" target="_blank">PDF ↗</a>
-            </div>
-          </div>
-        </div>
 
-      </div>
+          <!-- 05 Cosmos -->
+          <div class="proj-item">
+            <span class="proj-item-num">05</span>
+            <div class="proj-img" style="background:#111;">
+              <img src="images/cosmos.jpg" alt="Cosmos">
+              <div class="proj-img-overlay">
+                <p>디스토피아풍 버추얼 패션 브랜드.<br>3D CLO 가상 의류 구현.<br>생성형 AI 워크플로우 활용.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">Cosmos</div>
+              <div class="proj-year">2024</div>
+              <div class="proj-tags-inline">3D CLO · Illustrator · Photoshop · Gen AI</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="pdfs/cosmos.pdf" target="_blank">PDF ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 06 KakaoTalk Theme -->
+          <div class="proj-item">
+            <span class="proj-item-num">06</span>
+            <div class="proj-img" style="background:#FAE100;">
+              <div class="proj-img-placeholder">
+                <span style="font-family:'Inter',sans-serif;font-size:2rem;color:rgba(0,0,0,.15);">kakao</span>
+              </div>
+              <div class="proj-img-overlay">
+                <p>카카오톡 테마 크리에이터 활동.<br>고양이 · 천사 · 복숭아 등<br>직접 디자인한 테마 5종 판매 중.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">KakaoTalk Theme</div>
+              <div class="proj-year">2024–</div>
+              <div class="proj-tags-inline">Graphic Design · Illustration · Kakao</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://posty.pe/sj9jpwd" target="_blank">Store ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 07 RVD Fashion Design -->
+          <div class="proj-item">
+            <span class="proj-item-num">07</span>
+            <div class="proj-img" style="background:#1a1a1a;">
+              <div class="proj-img-placeholder">
+                <span style="font-family:'Inter',sans-serif;font-size:1.4rem;letter-spacing:.2em;color:rgba(255,255,255,.12);">RVD</span>
+              </div>
+              <div class="proj-img-overlay">
+                <p>패션 브랜드 알브이디(RVD) 재직.<br>컬렉션 기획 · 생산 커뮤니케이션.<br>시즌 디자인 작업물.</p>
+              </div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-name">RVD — Fashion Design</div>
+              <div class="proj-year">2023–2024</div>
+              <div class="proj-tags-inline">Collection Planning · Visual Design</div>
+              <div class="proj-links-row">
+                <a class="proj-link proj-link-em" href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:73bf33f6-3c03-4b38-98d7-94b15c0156d6" target="_blank">Portfolio ↗</a>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /proj-gallery -->
+      </div><!-- /proj-slider-wrap -->
     </div>
   </section>
 
@@ -814,5 +873,28 @@
     <span class="footer-copy">Creative Designer × AI Engineer · Seoul, Korea</span>
   </footer>
 
+  <script>
+    // ── Project slider nav ──
+    const gallery = document.getElementById('proj-gallery');
+    document.getElementById('proj-prev').addEventListener('click', () => {
+      gallery.scrollBy({ left: -260, behavior: 'smooth' });
+    });
+    document.getElementById('proj-next').addEventListener('click', () => {
+      gallery.scrollBy({ left: 260, behavior: 'smooth' });
+    });
+
+    // ── Card entrance animation ──
+    const items = document.querySelectorAll('.proj-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const delay = Array.from(items).indexOf(entry.target) * 80;
+          setTimeout(() => entry.target.classList.add('proj-visible'), delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(item => observer.observe(item));
+  </script>
 </body>
 </html>
